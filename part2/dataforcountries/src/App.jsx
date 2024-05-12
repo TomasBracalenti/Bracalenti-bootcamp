@@ -12,7 +12,6 @@ function App() {
         setCountries(response.data)
       })
   }, [])
-  console.log('countries:', countries)
   return (
     <div>
       <div>

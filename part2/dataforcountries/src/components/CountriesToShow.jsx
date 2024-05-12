@@ -10,7 +10,7 @@ const CountriesToShow = ({ countries, search, showCountry, setShowCountry }) => 
 
 
     console.log('filteredCountries:', filteredCountries)    
-    //no countries
+    //lot of countries
     if (filteredCountries.length > 10) {
         return <p>Too many matches, specify another filter</p>
     }
@@ -18,9 +18,13 @@ const CountriesToShow = ({ countries, search, showCountry, setShowCountry }) => 
     //only oneCountry
     if (filteredCountries.length === 1) {
         const country = filteredCountries[0]
-        return <CountryData country={country} />
+        return <CountryData show country={country} />
     }
-    
+    //no countries
+    if (filteredCountries.length === 0) {
+        return <p>No countries found</p>
+    }
+
     //showCountry
     return (
         <div>
