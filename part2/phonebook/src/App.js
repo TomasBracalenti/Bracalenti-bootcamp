@@ -31,15 +31,23 @@ const App = () => {
     }
     const personFind = persons.find(person => person.name === newName)
     if(newName!=='' &&  !personFind && newNumber!==''){
-      personService.create(personObject)
+      personService
+      .create(personObject)
       .then(response => {
         setPersons(persons.concat(response.data))   
       },
       setMessage({ type:'success', text: `Added ${newName}`}),
-      setTimeout(() => {setMessage(null)}, 5000)
+      setTimeout(() => {setMessage(null)}, 5000),
+      setNewName(''),
+      setNewNumber('')
     )
-      setNewName('');
-      setNewNumber('');
+      .catch(error => {
+        setMessage({ type:'error', text: error.response.data.error })
+        setTimeout(() => {setMessage(null)}, 5000)
+        console.log(error.response.data)
+      }
+      )
+
     }
     else {
       if(newNumber!=='' && window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
