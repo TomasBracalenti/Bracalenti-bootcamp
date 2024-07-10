@@ -33,6 +33,14 @@ describe("GET", ()=>{
         const response = await api.get('/api/blogs')
         assert(response.body[0].id)
     })
+
+    test("non existent id returns 404", async ()=>{
+        const id = "50f7e7d3c5e4e7e5c8b2c5b1"
+        await api
+        .get(`/api/blogs/${id}`)
+        .expect(404)
+    }
+    )
 })
 
 describe("POST", ()=>{
@@ -100,6 +108,53 @@ describe("POST", ()=>{
             .expect(400)
         })
 })
+
+describe("DELETE", ()=>{
+    test("Delete a blog by id", async ()=>{
+        const blogToDelete = helper.initialBlogs[0]
+        const id = blogToDelete._id
+        await api
+        .delete(`/api/blogs/${id}`)
+        .expect(204)
+        const blogsAtEnd = await helper.blogsInDb()
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+        assert(!blogsAtEnd.find(blog => blog._id === id))
+    })
+
+})
+
+describe("PUT", ()=>{
+    test("Update a blog by id", async ()=>{
+        const blogToUpdate = helper.initialBlogs[0]
+        const id = blogToUpdate._id
+        const updatedBlog = {
+            title: "Updated Title",
+        }
+        await api
+        .put(`/api/blogs/${id}`)
+        .send(updatedBlog)
+        .expect(200)
+
+        const newBlog = ({...blogToUpdate, ...updatedBlog})
+        newBlog.id = newBlog._id
+        delete newBlog._id
+        delete newBlog.__v
+        const blogsAtEnd = await helper.blogsInDb()
+        assert.deepStrictEqual(blogsAtEnd.find(blog => blog.id === id), newBlog)
+    })
+
+    test("Update a blog that does not exist", async ()=>{
+        const id = "50f7e7d3c5e4e7e5c8b2c5b1"
+        const updatedBlog = {
+            title: "Updated Title",
+        }
+        await api
+        .put(`/api/blogs/${id}`)
+        .send(updatedBlog)
+        .expect(404)
+    })
+})
+
 
 after(async ()=> {
     await mongoose.connection.close()
