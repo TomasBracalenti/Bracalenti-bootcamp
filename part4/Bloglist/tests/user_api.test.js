@@ -18,6 +18,7 @@ describe("initially one user in DB", ()=>{
         const user = new User({ 
           _id: '668efc3dc0b7ca05c8695eb8',
           username: 'root', 
+          name:'Juan Perez',
           passwordHash })
     
         await user.save()
