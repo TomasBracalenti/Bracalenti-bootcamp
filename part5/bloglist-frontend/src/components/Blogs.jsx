@@ -1,34 +1,42 @@
-import Blog from "./Blog";
-import FormBlog from "./FormBlogs";
-import Togglable from "./Togglable";
-const Blogs = ({ blogs, username, handleLogout, handleMessage, updateBlogs,handleUpdateBlog,handleDeleteBlog }) => {
+import Blog from "./Blog"
+import PropTypes from 'prop-types'
+const Blogs = ({
+  blogs,
+  username,
+  handleLogout,
+  handleUpdateBlog,
+  handleDeleteBlog,
+}) => {
 
   return (
     <div>
-      <h2>blogs</h2>
-      <Togglable buttonName = "new Blog" >
-      <FormBlog
-      handleMessage ={handleMessage}
-      updateBlogs={updateBlogs}
-      />
-      </Togglable>
-
-      <div>
+      <section>
         <p>
           {username} logged in
           <button style={{ margin: 10 }} onClick={handleLogout}>
             logout
           </button>
         </p>
-      </div>
+      </section>
       {blogs.map((blog) => (
-        <Blog 
-        handleDeleteBlog = {handleDeleteBlog}
-        handleUpdateBlog ={handleUpdateBlog}
-        key={blog.id} blog={blog} />
+        <Blog
+          handleDeleteBlog={handleDeleteBlog}
+          handleUpdateBlog={handleUpdateBlog}
+          key={blog.id}
+          blog={blog}
+        />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Blogs;
+Blogs.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  username: PropTypes.string.isRequired,
+  handleLogout: PropTypes.func.isRequired,
+  handleUpdateBlog: PropTypes.func.isRequired,
+  handleDeleteBlog: PropTypes.func.isRequired,
+}
+
+
+export default Blogs

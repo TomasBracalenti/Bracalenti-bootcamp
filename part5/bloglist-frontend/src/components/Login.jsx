@@ -3,11 +3,8 @@ const Login = ({
   handleChangeUsername,
   handleSumbitForm,
   username,
-  password
+  password,
 }) => {
-
-
-  
   return (
     <>
       <h1>login to application</h1>
@@ -15,28 +12,28 @@ const Login = ({
         <div>
           <label>
             Username:
-            <input 
-            onChange={handleChangeUsername}
-            value = {username}
-            placeholder="myUsername"
-            type="text" />
+            <input
+              onChange={handleChangeUsername}
+              value={username}
+              placeholder="myUsername"
+              type="text"
+            />
           </label>
         </div>
         <div>
           <label>
             Password:
             <input
-            onChange={handleChangePassword}
-            value={password}
-            type="password" />
+              onChange={handleChangePassword}
+              value={password}
+              type="password"
+            />
           </label>
-          <button
-          type="sumbit"
-          >login</button>
+          <button type="sumbit">login</button>
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
